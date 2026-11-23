@@ -23,6 +23,9 @@ def front(name):
 
 
 EXPECT = {
+    "setup": ["setup-progress.md", "references/preflight.md", "references/honest-resume.md",
+              "references/questions.md", "references/finish.md", "${CLAUDE_PLUGIN_ROOT}/templates",
+              "AskUserQuestion", "continue jobscan setup", "(Recommended)", "Other"],
     "apply": ["apply_outputs", "hm_search", "form_fill", "Ask me each time", "voice-rules.md",
               "applications/profile.md", "applications/postings/", "tracker.md", "/jobscan:tailor-resume",
               "`light`", "Stop before submit", "settings"],
