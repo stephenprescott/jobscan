@@ -23,6 +23,9 @@ def front(name):
 
 
 EXPECT = {
+    "apply": ["apply_outputs", "hm_search", "form_fill", "Ask me each time", "voice-rules.md",
+              "applications/profile.md", "applications/postings/", "tracker.md", "/jobscan:tailor-resume",
+              "`light`", "Stop before submit", "settings"],
     "jobscan": ["applications/criteria.md", "seen.csv", "tracker.md", "references/sources.md",
                 "${CLAUDE_PLUGIN_ROOT}/scripts/scan_window.py", "--mark-success", "blocked:",
                 "stopped: usage limit", "`notify`", "`board_url`", "`mode`", "`sources`", "settings"],
