@@ -1,0 +1,8 @@
+{
+  "name": "jobscan",
+  "version": "0.1.0",
+  "description": "A personal job search assistant: daily job scans scored against your own rules, a job board, honest tailored resumes and cover letters, and application form filling that stops before submit.",
+  "author": {
+    "name": "stephenprescott"
+  }
+}

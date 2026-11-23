@@ -1,0 +1,14 @@
+{
+  "name": "jobscan",
+  "description": "jobscan: a personal job search assistant you set up for yourself with Claude.",
+  "owner": {
+    "name": "stephenprescott"
+  },
+  "plugins": [
+    {
+      "name": "jobscan",
+      "source": "./plugin",
+      "description": "A personal job search assistant: daily job scans scored against your own rules, a job board, honest tailored resumes and cover letters, and application form filling that stops before submit."
+    }
+  ]
+}
