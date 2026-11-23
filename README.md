@@ -79,7 +79,7 @@ You're Claude, and someone sent you the message above. Do this:
    - Claude in Chrome comes first: walk them through Chrome, the extension, signing in to the same account, and test it with `tabs_context_mcp`. Don't continue until that test passes.
    - Then install the plugin from the shell: `claude plugin install jobscan --marketplace stephenprescott/jobscan`. If `claude` isn't found, ask them to type `/plugin install jobscan --marketplace stephenprescott/jobscan` in the chat.
    - Ask them to type `/reload-plugins` in the chat so the jobscan skills load (you can't run it for them), then to say "continue jobscan setup".
-4. **Run `/jobscan:setup`.** That skill carries the whole interview (Python check, data folder, honest resume, every rule, board, schedule, test run) and is the source of truth: follow it exactly. They make every personal decision; you recommend.
+4. **Run `/jobscan:setup`** (start the `jobscan:setup` skill with the Skill tool, so its file paths are filled in). That skill carries the whole interview (Python check, data folder, honest resume, every rule, board, schedule, test run) and is the source of truth: follow it exactly. They make every personal decision; you recommend.
 
 ## License
 

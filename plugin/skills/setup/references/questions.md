@@ -2,13 +2,13 @@
 
 Every personal decision, grouped by phase. Each entry: what to ask, the choices to offer (always plus "Other"), the recommendation to mark "(Recommended)" with its reason, and where the answer is written. Batch related questions into one card (up to 4). Ask open questions in chat where the entry says so. Never pre-fill an answer.
 
-Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
+Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`. Any answer of "ask me each time", in any phase, is also added to `applications/profile.md` § Ask me each time.
 
 ## Install
 
 ### data_folder_location
 - Asks: Where should your private jobscan folder live?
-- Choices: The folder this session is open in (if it's empty or holds only your resume, and isn't a git repo); a different folder you name (you'll then reopen the Code tab there).
+- Choices: The folder this session is open in (if it's empty or holds only your resume, ignoring a `.claude` folder, and isn't a git repo); a different folder you name (you'll then reopen the Code tab there).
 - Recommended: the folder this session is open in. The board's Apply button sends jobs to this session, so jobscan works best in the folder you're in now.
 - Writes: jobscan.config.md: `data_folder` (full path). Then copy the templates there.
 
@@ -34,8 +34,8 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 
 ### resume_sections
 - Asks: Which sections, in what order?
-- Choices: Summary, Experience, Skills, Education (classic); Summary, Experience, Projects, Skills, Training, Education (shows side projects and courses); Summary, Skills, Experience, Education (skills first, for career changers).
-- Recommended: the classic order, plus Projects or Training only if you have real ones.
+- Choices: Summary, Experience, Skills, Education (classic); Summary, Experience, Projects, Skills, Training, Education (shows side projects, courses and certifications); Summary, Skills, Experience, Education (skills first, for career changers).
+- Recommended: the classic order, plus Projects, Training or Certifications only if you have real ones.
 - Writes: the base resume doc structure; setup-progress.md.
 
 ### resume_max_pages
@@ -50,7 +50,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 - Asks: Where are you now: working and looking, between jobs, or finishing school or a contract? Any timing that matters? (chat)
 - Choices: open answer; then confirm a one-line summary.
 - Recommended: none.
-- Writes: CLAUDE.md "Current situation". Also write CLAUDE.md "Name" from the resume header.
+- Writes: CLAUDE.md "Current situation" (status and timing only: never why they left a job, even if they mention it; that goes in `applications/profile.md` only if they give exact wording and ask). Also write CLAUDE.md "Name" from the resume header.
 
 ### target_roles
 - Asks: What job do you want next, and why? (open question in chat)
@@ -74,7 +74,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 - Asks: Industries you want, or want to avoid?
 - Choices: No preference; prefer some (name them); avoid some (name them); both.
 - Recommended: No preference unless one matters to you; every preference shrinks the list.
-- Writes: applications/criteria.md (Want score category or a filter, their choice).
+- Writes: avoided industries → applications/criteria.md § 1 "My own filters" now; preferred industries → carried into `want_categories` (Phase 4) as a Want row, since the Want table is written there. Their choice which way each goes.
 
 ## Job rules
 
@@ -226,7 +226,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 - Asks: Any companies you especially want to work for? (chat, list)
 - Choices: None; a list.
 - Recommended: a short list (up to about 10) of companies whose jobs you'd always want to see.
-- Writes: applications/criteria.md § Target companies. For each company, find its careers page and job system (Workday, Greenhouse, Lever, iCIMS, ADP, UKG and so on) with Chrome, and write a short "how to read it" note (the job list address and any filter or search to use). Ask whether target companies are always Tier A when Match is high enough.
+- Writes: applications/criteria.md § Target companies. For each company, find its careers page and job system (Workday, Greenhouse, Lever, Ashby, iCIMS, Phenom and so on) with Chrome, then open the search address you plan to write and confirm it actually lists matching jobs (search links often ignore their keyword, or error) before writing the "how to read it" note (the job list address and any filter or search to use). This costs a few browser steps per company: with more than 3 companies, offer to research the rest during the first scan instead. Ask whether target companies are always Tier A when Match is high enough.
 
 ## Scan
 
@@ -283,7 +283,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 ### hm_search
 - Asks: Should /apply search LinkedIn for the hiring manager? (per tier)
 - Choices: Yes for Tier A; yes for A and B; never.
-- Recommended: Tier A only. It's useful but adds browsing time and usage.
+- Recommended: Tier A only, if LinkedIn is one of their sources and they're signed in to it; otherwise never (the search needs a signed-in LinkedIn). It's useful but adds browsing time and usage.
 - Writes: jobscan.config.md: `hm_search` (A, B, C true/false).
 
 ### form_fill
@@ -344,7 +344,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 - Writes: applications/profile.md § Logistics.
 
 ### screening
-- Asks: Common screening questions: currently employed? OK to receive texts during hiring? Related to an employee? Marketing consent? Background-check consent? How to answer "years of experience" ranges?
+- Asks: Common screening questions: currently employed? OK to receive texts during hiring? Related to an employee? Marketing consent? Background-check consent? Drug-test consent? How to answer "years of experience" ranges?
 - Choices: per question, yes / no / ask me each time.
 - Recommended: none; "ask me each time" for anything they're unsure about.
 - Writes: applications/profile.md § Screening questions.

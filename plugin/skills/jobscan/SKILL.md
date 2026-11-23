@@ -10,7 +10,7 @@ Goal: every new job that passes the user's filters, ranked, with nothing shown t
 ## 0. Read first
 Work in the user's jobscan folder (the folder holding `jobscan.config.md`). A scheduled run names that folder in its prompt: if this session's working folder is different, use the named folder and full paths for every file and command below. If it's missing, stop and say: open your jobscan folder in the Code tab, or run `/jobscan:setup`. If `setup-progress.md` shows Phase 5 not done, stop and say setup isn't finished.
 
-Read: `CLAUDE.md`, `jobscan.config.md`, `applications/criteria.md` (the only rules to apply), `applications/tracker.md`, `applications/jobscan/seen.csv`. For the Match score, read the base resume once per run (Claude Doc at `resume_doc_url`; export it as text with the docs tools; load the docs skill or `guide` first) and `confirmed-facts.md`.
+Read: `CLAUDE.md`, `jobscan.config.md`, `applications/criteria.md` (the only rules to apply), `applications/tracker.md`, `applications/jobscan/seen.csv`. For the Match score, read the base resume once per run (Claude Doc at `resume_doc_url`; load the docs skill or `guide` first, then export it as markdown with the docs `export` tool, or read the doc and its tab's body node; the doc id is the last part of the link) and `confirmed-facts.md`.
 
 Python command: `python` on Windows, `python3` on Mac.
 
@@ -40,7 +40,9 @@ Rules:
 - Read only: never apply, save, follow, message, or click Easy Apply anywhere.
 
 ## 3. Pre-filter from the results lists
-Drop without opening when the list already shows: a title clearly outside the user's titles, an on-site/hybrid location outside their commute, a posted pay top under their floor, or anything their filters drop outright (e.g. hourly gigs, pure contract) per `applications/criteria.md`.
+Drop without opening when the list already shows: a title clearly outside the user's titles, an on-site/hybrid location outside their commute, a posted pay top under their floor, or anything their filters drop outright (e.g. hourly gigs, pure contract) per `applications/criteria.md`. A full-time role posted with an hourly range is not a gig: compare it at hourly x 2,080.
+
+Job pages are long: when a page's text is large, read the requirements, pay, location and company-size parts rather than keeping the whole page.
 
 ## 4. Read each remaining posting
 Open it and pull: company, title, location and setup, pay range, employment type (and rate for contract-to-hire), travel, duties, required and preferred skills, years required, company size (from the board's company panel or the company's LinkedIn page; else "unknown"), and the **employer's own posting URL** (follow "Apply on company site" or find it on the employer's hiring system; fall back to the board URL only if none exists).

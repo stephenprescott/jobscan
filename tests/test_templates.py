@@ -13,7 +13,7 @@ FILES = [
     "CLAUDE.md", "jobscan.config.md", "setup-progress.md",
     "applications/criteria.md", "applications/profile.md", "applications/tracker.md",
     "applications/jobscan/seen.csv", "confirmed-facts.md", "voice-rules.md",
-    "resumes/_template.html",
+    "resumes/_template.html", "cover-letters/_template.html",
 ]
 
 CONFIG_KEYS = {

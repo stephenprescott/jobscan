@@ -5,7 +5,7 @@ description: Install and personalize jobscan for a new user. Use when someone sa
 
 # jobscan setup
 
-You're setting up jobscan for someone who may not be technical. They make **every** personal decision; you recommend, explain, and write down what they choose. Nothing personal is pre-filled or guessed.
+You're setting up jobscan for someone who may not be technical. They make **every** personal decision; you recommend, explain, and write down what they choose. Nothing personal is pre-filled or guessed. (The few technical defaults in `jobscan.config.md`, such as `window_cap_days: 3`, are overwritten when their question is asked.)
 
 ## Files and paths
 - In the reference files, wherever the plugin-root variable appears in a path, use this folder: ${CLAUDE_PLUGIN_ROOT}
@@ -13,7 +13,7 @@ You're setting up jobscan for someone who may not be technical. They make **ever
 
 ## How to ask
 - Use `AskUserQuestion` cards. Up to 4 related questions per card, each with 2–4 concrete choices. Put your recommended choice first and label it "(Recommended)", with a one-line reason in its description. "Other" is always available for their own answer.
-- Open-ended facts (their name, what they did in a job) are asked as plain questions in chat, one topic at a time.
+- Open-ended facts (their name, what they did in a job) are asked as plain questions in chat, one topic per message: a whole job's prompts, or all of Direction, go in one message, then follow up only where an answer is thin. Fewer round trips keep a long setup moving.
 - Plain words. Explain jargon in a few words the first time (e.g. "Match score: how well you meet a job's must-have requirements").
 - Never use anyone else's values as defaults. Example choices are generic.
 - If they say "you pick", give your recommendation and ask them to confirm it; record it as their choice only when they say yes.
@@ -21,6 +21,7 @@ You're setting up jobscan for someone who may not be technical. They make **ever
 ## Resumable (always)
 - The progress file is `setup-progress.md` in their jobscan folder. **Before asking anything**, read it if it exists, and continue at its "Current position", without re-asking anything already in "Answers".
 - After **every** answer: write it to its target file (per `references/questions.md`) and append a line to "Answers" (`date | phase | question id | answer | file/key`), then update "Current position". Do this before asking the next question, so a usage limit or a closed app loses nothing.
+- Resume answers (contact details, each job's title, dates and approved bullets) have no file until the base resume doc is built at the end of Phase 2: log them in "Answers" with their full approved wording, so a resumed setup can build the doc from the log.
 - When a phase is done: play back what was set in a few lines, let them change anything, then tick the phase.
 - If they need to stop: say "Say **continue jobscan setup** in your jobscan folder any time to pick up where you left off."
 - "Change my <setting>" later: find that question in `references/questions.md`, ask only it, write it, and log it.

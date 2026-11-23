@@ -37,7 +37,8 @@ Standard answers `/apply` uses to fill application forms. Written by `/jobscan:s
 - Permission to text during hiring: [ ]
 - Related to an employee of the hiring company: [ ]
 - Marketing consent: [ ]
-- Background check / drug test consent: [ ]
+- Background check consent: [ ]
+- Drug test consent: [ ]
 - Years of professional experience (how to answer ranges): [ ]
 - How did you hear about us: the board the posting came from.
 

@@ -6,7 +6,7 @@ Every Claude session in this folder reads this file first. It's written by `/job
 - Name: [ ]
 - Current situation: [ ]
 - Next role I want, and why: [ ]
-- Direction (main target and stretch target): [ ]
+- Direction (step up / same level, better fit / change direction): [ ]
 - Moving away from: [ ]
 
 ## Standing rules

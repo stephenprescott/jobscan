@@ -24,7 +24,7 @@ Goal: a strong, honest, tailored resume in one pass, with as few round trips as 
    - Travel, location and time-zone requirements against their rules.
    - Anything the background check will verify that the resume states differently from official records (the user told you about it during setup if so: check `confirmed-facts.md`).
 
-3. **Create the doc first, then fill it.** Name it `YYYY-MM-DD_Company_Role` (e.g. `2026-12-01_Acme_SeniorAnalyticsEngineer`). Use the base resume's sections in its order. Fill one section per call so the user can watch it build. It's a doc you made, so write edits directly, not as suggestions.
+3. **Create the doc first, then fill it.** Name it `YYYY-MM-DD_Company_Role` (e.g. `2026-12-01_Acme_SeniorAnalyticsEngineer`). Use the base resume's sections in its order. Fill one section per call so the user can watch it build. It's a doc you made, so write edits directly, not as suggestions. No byline under the title (skip the docs connector's usual date and author line): a resume has none.
    Tailoring moves, using only facts:
    - **Headline:** aim it at the target role. A headline is a target, never a claimed title.
    - **Summary:** lead with the user's most relevant fact for this posting.
@@ -38,7 +38,7 @@ Goal: a strong, honest, tailored resume in one pass, with as few round trips as 
 
 5. **Build the PDF.**
    - Export the final doc text with the docs `export` tool (markdown). It may include the user's own edits, so never rebuild from memory.
-   - Copy `resumes/_template.html` to the session scratchpad and replace the body content with the final text. Keep the CSS.
+   - Copy `resumes/_template.html` to the session scratchpad and replace the body content with the final text. Keep the CSS. The doc follows the base resume's order and wording; the PDF uses the template's layout blocks (header, sections, job heads) for that same content.
    - Run `python -I "${CLAUDE_PLUGIN_ROOT}/scripts/build_pdf.py" <html> "resumes/<name>.pdf" <scratchpad>/pages --max-pages <resume_max_pages>`.
    - Look at every page image. It must fit `resume_max_pages`, with no awkward wraps or orphaned headings. If it runs over, cut the weakest bullets in the doc first, then rebuild.
    - Don't use the docs PDF export for the final file: its spacing is much looser.

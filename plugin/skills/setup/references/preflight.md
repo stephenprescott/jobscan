@@ -1,6 +1,6 @@
 # Phase 1: preflight, install and data folder
 
-Do these in order. Show each step before doing it and get a yes. Stop with plain fix steps if a hard requirement is missing. **Skip any step already done earlier in this session** (the README's "For Claude" steps cover 1–4 before the plugin loads); just confirm it in one line.
+Do these in order. Show each install, download or account step before doing it and get a yes; read-only checks (the Chrome test, version checks) need no yes, just say what you're checking. Stop with plain fix steps if a hard requirement is missing. **Skip any step already done earlier in this session** (the README's "For Claude" steps cover 1–4 before the plugin loads); just confirm it in one line.
 
 ## 1. Where are we?
 - jobscan needs **Claude Code in the Claude desktop app** (the Code tab) on a **Pro plan or higher**, on Windows or Mac.
@@ -17,7 +17,7 @@ Also say: setup asks a lot of questions (it's their job search, so they make eve
 ## 3. Claude in Chrome (first; blocks everything else)
 1. Google Chrome installed? If not: google.com/chrome, install, open it.
 2. The Claude extension: in Chrome, open the Chrome Web Store, search "Claude", add **Claude** (by Anthropic), pin it to the toolbar, open it and **sign in with the same Claude account** as this app.
-3. Test: load the Chrome tools (ToolSearch "select:mcp__claude-in-chrome__tabs_context_mcp") and call `tabs_context_mcp`. It must return their tabs.
+3. Test: load the Chrome tools (ToolSearch "select:mcp__claude-in-chrome__tabs_context_mcp") and call `tabs_context_mcp` with `createIfEmpty: true`. Tell them first that a new Chrome window or tab group may open. It passes when it returns a tab group with a tab (it never lists their own tabs; a plain call without `createIfEmpty` only says the session has no tab group yet, which is not a failure).
    - Fails: walk through the extension's own connection steps (open the extension, check it says connected, restart Chrome, then try again). Don't continue until this test passes. If it still fails after two tries, stop and tell them setup will continue once Chrome connects ("continue jobscan setup").
 (Signing in to job sites comes later, after they pick which sites to search.)
 
@@ -27,7 +27,7 @@ Also say: setup asks a lot of questions (it's their job search, so they make eve
 - Then ask them to type `/reload-plugins` in this chat (you can't run it for them) so the jobscan skills load, and then say "continue jobscan setup".
 
 ## 5. The data folder (right after the plugin loads)
-- Ask where to keep their jobscan folder: `references/questions.md` § Install → `data_folder_location`. Recommend **the folder this session is open in**, when it's empty (or holds only their resume) and isn't inside a git repo: the board's Apply button sends jobs to this session, and jobscan expects to run in its own folder.
+- Ask where to keep their jobscan folder: `references/questions.md` § Install → `data_folder_location`. Recommend **the folder this session is open in**, when it's empty (or holds only their resume; ignore a `.claude` folder, which the app may create) and isn't inside a git repo: the board's Apply button sends jobs to this session, and jobscan expects to run in its own folder.
 - Refuse a folder inside a git repo (`git -C <folder> rev-parse` succeeds) or inside a shared or public synced folder; explain why (their resume, pay and personal answers would go with it).
 - Copy every file from the plugin's `templates/` folder (see "Files and paths" in the setup skill) into it, keeping the folder tree. Never overwrite an existing file.
 - Write `data_folder` in `jobscan.config.md`. Log the Phase 1 answers so far in `setup-progress.md`.

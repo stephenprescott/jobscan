@@ -15,6 +15,7 @@ The daily list shows Want and Match as separate columns, sorted by Want + Match 
   - Drop if the top of the posted range is under: [ ]
   - No range posted: [ ] (keep / keep only at certain levels / drop)
   - Hourly gigs and piece work: [ ]
+  - Full-time or contract-to-hire roles posted with an hourly range (common in healthcare) are not gigs: compare them at hourly x 2,080.
 - **Location:** [ ] (remote US / hybrid / on-site). Max commute from home: [ ] minutes. Remote jobs must allow my state: [ ].
 - **Employment type:** [ ] (full-time / contract-to-hire and its minimum hourly rate / contract).
 - **Travel:** at most [ ].

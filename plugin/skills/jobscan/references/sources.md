@@ -12,7 +12,7 @@ The scan searches only the source ids listed in `sources` in `jobscan.config.md`
 | `indeed` | Indeed | `indeed.com/jobs?q=<query>&fromage=<indeed_fromage>` with `l=Remote`, then `l=<home_zip>&radius=25` |
 | `google_jobs` | Google Jobs | Google "<query> jobs remote" and "<query> jobs <user's city>", open the Jobs panel, date filter matching `google_tbs` (past day / past week). Picks up boards not searched directly (ZipRecruiter, Glassdoor, Monster, state job banks) |
 | `hiring_systems` | Employer hiring systems | Two Google searches with `&tbs=<google_tbs>`: (1) `site:boards.greenhouse.io OR site:job-boards.greenhouse.io OR site:jobs.lever.co OR site:jobs.ashbyhq.com <query> (remote OR "<user's city>")`; (2) the same with `site:myworkdayjobs.com OR site:icims.com OR site:jobs.smartrecruiters.com` |
-| `builtin` | Built In | builtin.com/jobs/remote, search each query, newest first |
+| `builtin` | Built In | `builtin.com/jobs/remote?search=<query>&daysSinceUpdated=<indeed_fromage>`, each main title (Built In takes no OR searches). Remote mode only: Built In has no reliable local filter by URL (city paths return national results), so write the Local column as `n/a (remote only)`; Google Jobs, Indeed and employer hiring systems cover local jobs |
 | `wellfound` | Wellfound | wellfound.com/jobs, remote, the user's role types |
 | `dice` | Dice | dice.com/jobs, query + Remote, then + the user's city, posted-date filter matching the window. Expect many recruiter postings |
 | `state_site` | The user's state job site | As written in `applications/criteria.md` § Sources (found during setup). Usually lists newest first with a posted date; open each match to read pay |
@@ -20,7 +20,7 @@ The scan searches only the source ids listed in `sources` in `jobscan.config.md`
 | `target_companies` | Target companies' own career sites | Read every company in `applications/criteria.md` § Target companies, using its "How to read it" note. Read the **whole current list** (the scan window doesn't apply), keep titles matching the user's titles or role keywords, and show any not already in `seen.csv` or `tracker.md`. Note the posting age in flags ("posted 9 days ago"). If a site's address changed, find the new one from the company's careers page and update the table |
 
 **Light vs full mode**
-- `light`: the scan reads each source's results list and opens only the listings that pass the pre-filter **and** show a title from the user's main titles; stretch titles are opened only when the list shows pay at or above the user's floor.
+- `light`: the scan reads each source's results list and opens only the listings that pass the pre-filter **and** whose title contains one of the user's main titles as a phrase (ignoring Sr/Senior, level numerals and punctuation; "Remote Quality Improvement Data Analyst" contains "Data Analyst"); stretch titles are opened only when the list shows pay at or above the user's floor.
 - `full`: open every listing that passes the pre-filter.
 - In both modes every enabled source is searched; nothing is skipped "for time".
 

@@ -16,7 +16,7 @@ Ask what to show: name as they want it shown, email, phone, city and state, Link
 ## 3. One job at a time (most recent first)
 For each job:
 1. **Employer, official title, start and end month/year.** Ask for the title **as HR records it** and dates as their records show (offer letter, pay stubs, LinkedIn). If they used a working title, keep the official title; the working title may follow in parentheses only if they confirm it's accurate. Flag any date or title that differs from the existing resume; don't smooth it over.
-2. **What they did.** Open questions, one or two at a time: What did you build or run? For whom? With what tools? How big (people, records, money, systems)? What changed because of it? What are you proudest of there?
+2. **What they did.** Ask these open questions together in one message: What did you build or run? For whom? With what tools? How big (people, records, money, systems)? What changed because of it? What are you proudest of there? Then follow up only on thin or doubtful answers (numbers, "led", "expert").
 3. **Draft bullets from their answers only.** Show the bullets and ask: "Is each of these accurate as written?"
 4. **Numbers:** keep a number only if they can say how they know it. Estimates say "about". No number? The bullet describes the work without one.
 5. **Push back on inflation, kindly, with the reason.** Examples: "led" when they were one of several ("Were you the lead, or one of the team? Interviewers will ask who reported to you."); "expert" after light use; "managed" with no direct reports; a team or budget size they can't back up. Write the accurate version.
@@ -36,13 +36,13 @@ Exactly as conferred: degree, field, school, and year if they want it shown. In-
 Don't write anything about why they left any job. If they want wording for that, they give it; it goes in `profile.md` only if they ask.
 
 ## 8. Summary and headline (last)
-Draft from confirmed content only. A headline is the role they're targeting, never a claimed title. They approve the wording.
+Draft from confirmed content only. A headline names the kind of role they're targeting, never a claimed title: if the target is a level above their real title (target "Senior Data Analyst", title "Data Analyst II"), name the field and strengths instead ("Data and BI Analyst"), since a senior title in the headline reads as a claim. They approve the wording.
 
 ## 9. Build the doc
 - Choose sections and order with them (`resume_sections`) and the page limit (`resume_max_pages`).
-- Create a Claude Doc named "<Their name> - Base Resume" (load the docs skill or `guide` first). Fill one section per edit so they can watch it build.
+- Create a Claude Doc named "<Their name> - Base Resume" (load the docs skill or `guide` first). Fill one section per edit so they can watch it build. A resume has no byline: skip the docs connector's usual date and author line under the title.
 - Write its link to `jobscan.config.md` → `resume_doc_url`.
-- Build a test PDF: copy `resumes/_template.html` to the scratchpad, put the resume in its body (keep the CSS), run `python -I "${CLAUDE_PLUGIN_ROOT}/scripts/build_pdf.py" <html> resumes/base-resume-test.pdf <scratchpad>/pages --max-pages <resume_max_pages>` (`python3` on Mac). Look at every page image; fix overflow by tightening wording with them.
+- Build a test PDF: export the doc as markdown with the docs tools (never retype it from memory), copy `resumes/_template.html` to the scratchpad, put the resume in its body (keep the CSS; use its section blocks, adding a Certifications block like Training if needed), run `python -I "${CLAUDE_PLUGIN_ROOT}/scripts/build_pdf.py" <html> resumes/base-resume-test.pdf <scratchpad>/pages --max-pages <resume_max_pages>` (`python3` on Mac). Look at every page image; fix overflow by tightening wording with them.
 - Show them the doc and the PDF. **Ask for approval: "Is every line in this resume true and something you can explain in an interview?"** Fix anything they flag. The app uses it only after a yes; log the approval in `setup-progress.md`.
 
 ## 10. confirmed-facts.md

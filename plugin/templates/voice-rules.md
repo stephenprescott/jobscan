@@ -3,7 +3,7 @@
 Defaults shipped with jobscan. During setup you keep, change or drop each rule; add your own at the end. Applies to cover letters, hiring-manager notes and free-text form answers.
 
 - Open with something specific to this company or role, not "I am writing to apply" or "I'm excited".
-- Use 2–3 concrete facts from the base resume or confirmed facts, with real numbers, tied to what the posting asks for.
+- Use 2–3 concrete facts from the base resume or confirmed facts, with real numbers, tied to what the posting asks for. (A fact may carry its own supporting numbers; the limit is on separate points, not on digits.)
 - Plain words. Contractions are fine. Vary sentence length. Short paragraphs.
 - No em dashes.
 - Banned words and phrases: "excited", "thrilled", "passionate", "leverage", "synergy", "dynamic", "fast-paced", "I believe I would be a great fit".
