@@ -43,3 +43,7 @@ def test_never_does_list():
 
 def test_license_and_changelog_exist():
     assert (ROOT / "LICENSE").is_file() and (ROOT / "CHANGELOG.md").is_file()
+
+
+def test_no_usage_placeholders():
+    assert "USAGE_" not in readme()

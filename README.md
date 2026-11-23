@@ -46,14 +46,7 @@ Your resume, rules, answers and job lists stay in your private jobscan folder on
 
 ## Usage
 
-jobscan uses part of your Claude plan's usage, shared with your regular Claude chats. Rough guide, measured on a test search:
-
-| Activity | Rough share of a Pro plan's 5-hour usage window |
-|---|---|
-| Setup interview (spread over sittings) | USAGE_SETUP |
-| One Light scan | USAGE_LIGHT |
-| One Full scan | USAGE_FULL |
-| One /apply (resume, letter, note, form) | USAGE_APPLY |
+jobscan uses part of your Claude plan's usage, shared with your regular Claude chats. The heaviest parts are the setup interview (spread it over a few sittings if you like), each scan, and each Apply (resume, letter, note and form). Real numbers for a Pro plan aren't measured yet; they'll be added here from early users. You can watch your own usage in claude.ai under Settings → Usage.
 
 On a Pro plan, Light mode with one scan a day is the comfortable choice. If a scan hits a usage limit, it saves what it found and the next scan picks up the rest.
 
