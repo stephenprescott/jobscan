@@ -172,6 +172,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`. Any 
 - Asks: Drop roles that require more years than you have by a wide margin?
 - Choices: Drop if they ask for 3+ more years than I have; drop if 5+ more; never drop on years.
 - Recommended: drop if 3+ more years. Those rarely get past screening.
+- Note: this applies to total years and to years in a specific area the posting names ("6+ years in healthcare" is compared with their healthcare years), so record years by area, including industries, in `years_experience`.
 - Writes: applications/criteria.md § 1 Level.
 
 ### clearance
@@ -199,7 +200,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`. Any 
 - Writes: applications/criteria.md § 2 Want score (points and "Total possible").
 
 ### years_experience
-- Asks: How many years of experience do you have, total and in each main area? (chat; check against the resume)
+- Asks: How many years of experience do you have, total, in each main tool or skill, and in each industry (e.g. healthcare)? (chat; check against the resume)
 - Choices: open answer.
 - Recommended: count from the resume dates; confirm with them.
 - Writes: applications/criteria.md § 3 My years of experience.

@@ -16,7 +16,11 @@ SKIP_DIRS = {".git", ".superpowers", "__pycache__", ".pytest_cache"}
 PATTERNS = [
     ("phone number", re.compile(r"(?<!\d)\(?\d{3}\)?[-. ]\d{3}[-. ]\d{4}(?!\d)")),
     ("claude artifact link", re.compile(r"claude\.ai/(?:code/)?artifact/[A-Za-z0-9-]+")),
-    ("email address", re.compile(r"[\w.+-]+@(?!example\.(?:com|org)\b)[\w-]+(?:\.[\w-]+)+")),
+    # Local part must start with a letter or digit, so "+@decorator" diff lines don't match.
+    # Public placeholder and no-reply addresses are allowed.
+    ("email address", re.compile(
+        r"(?<![\w.+-])(?!noreply@anthropic\.com\b)[A-Za-z0-9][\w.+-]*"
+        r"@(?!(?:example\.(?:com|org)|users\.noreply\.github\.com)\b)[\w-]+(?:\.[\w-]+)+")),
 ]
 
 

@@ -73,6 +73,12 @@ def test_no_values_prefilled():
         assert not re.search(r"\b\d{5}\b", text), f
 
 
+def test_years_filter_is_relative_and_by_area():
+    text = (T / "applications/criteria.md").read_text(encoding="utf-8")
+    assert "more years than I have" in text
+    assert "in the specific area the posting names" in text
+
+
 def test_profile_has_ask_each_time_list():
     assert "## Ask me each time" in (T / "applications/profile.md").read_text(encoding="utf-8")
 

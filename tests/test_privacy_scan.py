@@ -68,3 +68,13 @@ def test_cli_exit_codes(tmp_path):
     write(repo, "b.md", "ACME\n")
     r = run()
     assert r.returncode == 1 and "b.md:1" in r.stdout
+
+
+def test_ignores_decorators_in_diff_lines():
+    assert privacy_scan.scan_text("+" + "@pytest.mark.skipif(x)\n", "d", []) == []
+
+
+def test_allows_public_noreply_addresses():
+    text = "Co-Authored-By: Claude <noreply" + "@anthropic.com>\n" \
+           "Author: me <1+me" + "@users.noreply.github.com>\n"
+    assert privacy_scan.scan_text(text, "log", []) == []

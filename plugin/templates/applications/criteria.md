@@ -20,7 +20,7 @@ The daily list shows Want and Match as separate columns, sorted by Want + Match 
 - **Employment type:** [ ] (full-time / contract-to-hire and its minimum hourly rate / contract).
 - **Travel:** at most [ ].
 - **Duplicate:** already in `tracker.md` or `jobscan/seen.csv`: drop.
-- **Level:** drop [ ] (levels too junior or too senior). Drop roles requiring more than [ ] years.
+- **Level:** drop [ ] (levels too junior or too senior). Drop roles requiring [ ]+ more years than I have, in total or in the specific area the posting names (compare with my years by area in § 3).
 - **Clearance:** [ ] (drop roles needing an active clearance I don't have / keep).
 - **Recruiters and aggregators:** [ ] (drop postings that hide the real employer / keep).
 - **My own filters:** [ ]

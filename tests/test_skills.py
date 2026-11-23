@@ -32,7 +32,7 @@ EXPECT = {
               "`light`", "Stop before submit", "settings", "/jobscan:apply 2026-12-01 #2"],
     "jobscan": ["applications/criteria.md", "seen.csv", "tracker.md", "references/sources.md",
                 "${CLAUDE_PLUGIN_ROOT}/scripts/scan_window.py", "--mark-success", "blocked:",
-                "stopped: usage limit", "`notify`", "skip it if unavailable", "match unverified", "`board_url`", "`mode`", "`sources`", "settings"],
+                "stopped: usage limit", "`notify`", "skip it if unavailable", "match unverified", "years in that same area", "`board_url`", "`mode`", "`sources`", "settings"],
     "tailor-resume": ["resume_doc_url", "resume_max_pages", "confirmed-facts.md", "voice-rules.md",
                       "${CLAUDE_PLUGIN_ROOT}/scripts/build_pdf.py", "resumes/_template.html"],
 }
