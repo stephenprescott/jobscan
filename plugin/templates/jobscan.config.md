@@ -1,5 +1,5 @@
 ---
-data_folder: null
+data_folder: null  # full path in single quotes or with forward slashes; double quotes break on Windows backslashes
 resume_doc_url: null
 board_url: null
 state: null

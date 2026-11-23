@@ -68,3 +68,22 @@ def test_no_windows_only_paths(name):
 @pytest.mark.parametrize("name", sorted(EXPECT))
 def test_privacy(name):
     assert scan_text(skill(name), name, load_denylist(os.environ["JOBSCAN_DENYLIST"])) == []
+
+
+ROOT = SKILLS.parent.parent
+PREFLIGHT = ROOT / "plugin/skills/setup/references/preflight.md"
+
+
+def test_preflight_says_how_to_write_windows_paths():
+    text = PREFLIGHT.read_text(encoding="utf-8")
+    assert "single quotes" in text
+
+
+def test_preflight_docs_check_has_pass_rule():
+    section = PREFLIGHT.read_text(encoding="utf-8").split("## 8. Claude Docs")[1]
+    assert "It passes when" in section
+
+
+def test_config_template_warns_about_double_quotes():
+    text = (ROOT / "plugin/templates/jobscan.config.md").read_text(encoding="utf-8")
+    assert "single quotes" in text

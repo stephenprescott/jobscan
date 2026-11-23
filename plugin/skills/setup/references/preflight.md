@@ -30,7 +30,7 @@ Also say: setup asks a lot of questions (it's their job search, so they make eve
 - Ask where to keep their jobscan folder: `references/questions.md` § Install → `data_folder_location`. Recommend **the folder this session is open in**, when it's empty (or holds only their resume; ignore a `.claude` folder, which the app may create) and isn't inside a git repo: the board's Apply button sends jobs to this session, and jobscan expects to run in its own folder.
 - Refuse a folder inside a git repo (`git -C <folder> rev-parse` succeeds) or inside a shared or public synced folder; explain why (their resume, pay and personal answers would go with it).
 - Copy every file from the plugin's `templates/` folder (see "Files and paths" in the setup skill) into it, keeping the folder tree. Never overwrite an existing file.
-- Write `data_folder` in `jobscan.config.md`. Log the Phase 1 answers so far in `setup-progress.md`.
+- Write `data_folder` in `jobscan.config.md` as the full path in single quotes (e.g. `'C:\Users\name\Documents\Job Search'`) or with forward slashes. Never use double quotes: Windows backslashes break the file. Log the Phase 1 answers so far in `setup-progress.md`.
 - If they chose a different folder than this session's: tell them to open **that folder** in the Code tab now and say "continue jobscan setup" there. Stop here; everything else happens in that session, so the board and Apply button connect to it.
 
 ## 6. Auto-update
@@ -42,6 +42,6 @@ Ask `references/questions.md` § Install → `auto_update`. If yes, tell them ho
 - Chrome (from step 3) is also used to print PDFs.
 
 ## 8. Claude Docs
-Their base resume lives in a Claude Doc. Check the docs tools are available (load the docs skill or `guide`). If not, tell them to turn on Claude Docs in claude.ai settings (it's on every plan) and continue when done.
+Their base resume lives in a Claude Doc. Check the docs tools are available: load the docs skill, or call the docs `guide` tool with `topic.index`. It passes when that returns the docs guide; it fails when no docs skill or `guide` tool exists in this session. If not, tell them to turn on Claude Docs in claude.ai settings (it's on every plan) and continue when done.
 
 Tick Phase 1.

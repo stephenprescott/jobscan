@@ -47,3 +47,7 @@ def test_license_and_changelog_exist():
 
 def test_no_usage_placeholders():
     assert "USAGE_" not in readme()
+
+
+def test_chrome_test_uses_create_if_empty():
+    assert "createIfEmpty: true" in readme()
