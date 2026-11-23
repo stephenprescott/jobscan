@@ -6,7 +6,7 @@ Say why up front, briefly: background checks verify employers, job titles, dates
 
 ## 1. Starting point (their choice)
 Card (`references/questions.md` § Resume → `resume_source`): their current resume file (Word or PDF), a LinkedIn profile PDF (LinkedIn profile → More → Save to PDF), or start from scratch by interview.
-- A file: read it fully. Treat it as a draft to check, not as truth.
+- A file: ask them to copy it into their jobscan folder (or drag it into the chat). PDF: read it fully. Word (.docx): ask them to also save it as PDF (File → Save As → PDF) and read that, or to paste the text into the chat. Treat it as a draft to check, not as truth.
 - From scratch: build everything from the interview below.
 Never fill a gap with a guess.
 
@@ -30,7 +30,7 @@ Ask whether they have personal, volunteer or side projects worth showing. Descri
 - Anything only studied, tried once or "familiar with" goes on the **Don't claim** list (or a clearly labeled "Learning" line in the resume if they prefer; ask). Explain: Match scoring treats these as gaps, so the app never claims them.
 
 ## 6. Education and certifications
-Exactly as conferred: degree, field, school, and year if they want it shown. In-progress items say "expected <month year>". Never imply a degree or certificate that wasn't earned.
+Exactly as conferred: degree, field, school, and year if they want it shown. In-progress items say "expected <month year>". Never imply a degree or certificate that wasn't earned. Anything they want on applications but not on the resume goes to `applications/profile.md` § Education and certifications.
 
 ## 7. Endings
 Don't write anything about why they left any job. If they want wording for that, they give it; it goes in `profile.md` only if they ask.

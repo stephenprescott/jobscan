@@ -40,7 +40,21 @@ def test_missing_pypdf_prints_install_hint(monkeypatch):
     monkeypatch.setattr(builtins, "__import__", fake_import)
     with pytest.raises(SystemExit) as e:
         build_pdf.load_pdf_libs()
-    assert "pip install pypdf pypdfium2" in str(e.value)
+    assert "pip install pypdf pypdfium2 pillow" in str(e.value)
+
+
+def test_missing_pillow_prints_install_hint(monkeypatch):
+    real_import = builtins.__import__
+
+    def fake_import(name, *a, **k):
+        if name == "PIL":
+            raise ImportError("no PIL")
+        return real_import(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", fake_import)
+    with pytest.raises(SystemExit) as e:
+        build_pdf.load_pdf_libs()
+    assert "pillow" in str(e.value)
 
 
 def test_max_pages_flag_default_2():

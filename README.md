@@ -6,7 +6,7 @@ Built for people in data and tech roles (analytics, BI, data engineering and sim
 
 ## Get started
 
-A friend sent you here. Copy this message and send it to Claude in the **Code** tab of the Claude desktop app:
+A friend sent you here. In the Claude desktop app, open the **Code** tab, create and choose a new empty folder (for example `Documents/Job Search`), then copy this message and send it to Claude:
 
 ```text
 My friend sent me a link to have their Jobscan app setup on my claude account. This link: https://github.com/stephenprescott/jobscan will give you all the information you need to help me set it up.
@@ -73,11 +73,11 @@ Ask the friend who sent you this link. If you open a GitHub issue, never paste y
 
 You're Claude, and someone sent you the message above. Do this:
 
-1. **Check where you are.** You need Claude Code with shell and file access (the Code tab of the Claude desktop app) and a Pro plan or higher. If you're in claude.ai chat, the phone app, or anything without a shell: tell them jobscan must be installed from the Claude desktop app's Code tab on a Pro plan or higher, give the download link (claude.ai/download), and ask them to open the Code tab in an empty folder and send the same message there. If they're on the Free plan, say it can't run there and why. Install nothing, and stop.
+1. **Check where you are.** You need Claude Code with shell and file access (the Code tab of the Claude desktop app) and a Pro plan or higher. If you're in claude.ai chat, the phone app, or anything without a shell: tell them jobscan must be installed from the Claude desktop app's Code tab on a Pro plan or higher, give the download link (claude.ai/download), and ask them to open the Code tab in a new empty folder (e.g. `Documents/Job Search`) and send the same message there. If they're on the Free plan, say it can't run there and why. Install nothing, and stop.
 2. **Explain briefly** what jobscan does and what it never does (above), that it needs **Claude in Chrome**, that setup asks many questions and can be paused, and that it uses part of their plan's usage. Ask to begin.
 3. **Install** (show each step and get a yes first):
    - Claude in Chrome comes first: walk them through Chrome, the extension, signing in to the same account, and test it with `tabs_context_mcp`. Don't continue until that test passes.
-   - Then install the plugin from the shell: `claude plugin install jobscan --marketplace stephenprescott/jobscan`
+   - Then install the plugin from the shell: `claude plugin install jobscan --marketplace stephenprescott/jobscan`. If `claude` isn't found, ask them to type `/plugin install jobscan --marketplace stephenprescott/jobscan` in the chat.
    - Ask them to type `/reload-plugins` in the chat so the jobscan skills load (you can't run it for them), then to say "continue jobscan setup".
 4. **Run `/jobscan:setup`.** That skill carries the whole interview (Python check, data folder, honest resume, every rule, board, schedule, test run) and is the source of truth: follow it exactly. They make every personal decision; you recommend.
 

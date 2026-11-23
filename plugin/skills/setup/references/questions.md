@@ -8,8 +8,8 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 
 ### data_folder_location
 - Asks: Where should your private jobscan folder live?
-- Choices: Documents/Job Search; a folder you name; the folder this session is open in (if it's empty and not a git repo).
-- Recommended: Documents/Job Search. Easy to find, not inside a code project or a shared folder.
+- Choices: The folder this session is open in (if it's empty or holds only your resume, and isn't a git repo); a different folder you name (you'll then reopen the Code tab there).
+- Recommended: the folder this session is open in. The board's Apply button sends jobs to this session, so jobscan works best in the folder you're in now.
 - Writes: jobscan.config.md: `data_folder` (full path). Then copy the templates there.
 
 ### auto_update
@@ -46,6 +46,12 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 
 ## Direction (asked in chat, then confirmed)
 
+### current_situation
+- Asks: Where are you now: working and looking, between jobs, or finishing school or a contract? Any timing that matters? (chat)
+- Choices: open answer; then confirm a one-line summary.
+- Recommended: none.
+- Writes: CLAUDE.md "Current situation". Also write CLAUDE.md "Name" from the resume header.
+
 ### target_roles
 - Asks: What job do you want next, and why? (open question in chat)
 - Choices: open answer; then confirm a one-line summary.
@@ -76,7 +82,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 - Asks: Which job titles should the scan search for first? (open question; suggest titles that fit their resume and target, and let them edit)
 - Choices: your suggested list; their own list.
 - Recommended: 4–8 titles that match the target role and their real experience.
-- Writes: applications/criteria.md § Titles to search, Main.
+- Writes: applications/criteria.md § Titles to search, Main; and § 1 Role "keep" (a one-line summary of the roles these titles describe).
 
 ### titles_stretch
 - Asks: Any stretch titles, one level up or a neighboring role?
@@ -118,7 +124,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 - Asks: Which work setups? (multi-select)
 - Choices: Remote (US); hybrid near home; on-site near home.
 - Recommended: none; ask what their life needs.
-- Writes: applications/criteria.md § 1 Location.
+- Writes: applications/criteria.md § 1 Location; applications/profile.md § Logistics "Work setup".
 
 ### home_zip
 - Asks: Your home ZIP code and state? (chat) Used only for commute checks and your state's job site.
@@ -234,7 +240,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 - Asks: Which job sites should the scan search? (multi-select; explain each in a few words)
 - Choices: LinkedIn; Indeed; Google Jobs; employer hiring systems (Greenhouse, Lever, Workday and similar); Built In; Wellfound (startups); Dice (tech, many recruiters); your state's job site; USAJobs (federal); your target companies' career sites.
 - Recommended: for Light: LinkedIn, Indeed, Google Jobs, employer hiring systems, and target companies (if any). For Full: add the rest that fit their field.
-- Writes: jobscan.config.md: `sources` (ids: linkedin, indeed, google_jobs, hiring_systems, builtin, wellfound, dice, state_site, usajobs, target_companies). Remind them to be signed in to LinkedIn and Indeed in Chrome.
+- Writes: jobscan.config.md: `sources` (ids: linkedin, indeed, google_jobs, hiring_systems, builtin, wellfound, dice, state_site, usajobs, target_companies). Then ask them to sign in, in Chrome, to each chosen site that has accounts (LinkedIn, Indeed, Dice, Wellfound), themselves; wait until they say done.
 
 ### state_site
 - Asks: (only if `state_site` chosen) Find your state's job site now?
@@ -290,7 +296,8 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 - Asks: When a form requires a desired salary number, what should be entered?
 - Choices: My target; the top of the posted range; the midpoint of the range; leave it for me each time.
 - Recommended: leave it for you each time, until you've seen how it goes.
-- Writes: applications/profile.md § Pay. If "each time", also add it to "Ask me each time".
+- Also asks: when the salary field is optional, leave it blank or fill it the same way?
+- Writes: applications/profile.md § Pay (both lines). If "each time", also add it to "Ask me each time".
 
 ### ask_each_time
 - Asks: Which form questions should always be left blank for you to answer? (multi-select; reason for leaving is always on the list)
@@ -301,8 +308,8 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`.
 ## Profile
 
 ### contact
-- Asks: (chat) Name as shown on forms, full legal name (only for forms that ask), email, phone, city/state/ZIP, LinkedIn URL, portfolio or GitHub. Street address only if they want forms that require it filled.
-- Choices: open answers.
+- Asks: Fill the form answers from what you already gave (the resume header and your ZIP) and confirm them; then ask only what's new: full legal name (for forms that ask) and street address (only if they want forms that require it filled).
+- Choices: confirm / correct; open answers for the new items.
 - Recommended: none.
 - Writes: applications/profile.md § Contact.
 

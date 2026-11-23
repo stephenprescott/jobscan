@@ -7,6 +7,10 @@ description: Install and personalize jobscan for a new user. Use when someone sa
 
 You're setting up jobscan for someone who may not be technical. They make **every** personal decision; you recommend, explain, and write down what they choose. Nothing personal is pre-filled or guessed.
 
+## Files and paths
+- In the reference files, wherever the plugin-root variable appears in a path, use this folder: ${CLAUDE_PLUGIN_ROOT}
+- Reference files: `references/preflight.md`, `references/honest-resume.md`, `references/questions.md`, `references/finish.md` (next to this file).
+
 ## How to ask
 - Use `AskUserQuestion` cards. Up to 4 related questions per card, each with 2–4 concrete choices. Put your recommended choice first and label it "(Recommended)", with a one-line reason in its description. "Other" is always available for their own answer.
 - Open-ended facts (their name, what they did in a job) are asked as plain questions in chat, one topic at a time.
@@ -22,7 +26,7 @@ You're setting up jobscan for someone who may not be technical. They make **ever
 - "Change my <setting>" later: find that question in `references/questions.md`, ask only it, write it, and log it.
 
 ## Phases (in order)
-1. **Preflight, install and data folder:** follow `references/preflight.md`. Claude in Chrome comes first, and setup does not go on until the browser test passes. Then create their jobscan folder from `${CLAUDE_PLUGIN_ROOT}/templates` (copy the whole tree; never overwrite an existing file) and write `data_folder` in `jobscan.config.md`.
+1. **Preflight, install and data folder:** follow `references/preflight.md`. Claude in Chrome comes first, and setup does not go on until the browser test passes. Steps already done earlier in this session (before the plugin loaded) are not repeated. Their jobscan folder is created from `${CLAUDE_PLUGIN_ROOT}/templates` (copy the whole tree; never overwrite an existing file) as soon as the plugin is loaded, so progress is saved from then on.
 2. **Honest base resume:** follow `references/honest-resume.md`. It comes before the job rules because scoring and tailoring depend on it.
 3. **Direction:** `references/questions.md` § Direction. Write the answers to `CLAUDE.md` § Who and the goal.
 4. **Job rules:** § Job rules, written to `applications/criteria.md` (and the config keys named there).

@@ -31,7 +31,11 @@ def test_fit_chip_hidden_until_settings():
 
 
 def test_apply_comment_format():
-    assert '"/apply " + j.date + " #" + j.num' in html()
+    assert '"/jobscan:apply " + j.date + " #" + j.num' in html()
+
+
+def test_unverified_match_jobs_always_shown():
+    assert '"match unverified"' in html()
 
 
 def test_no_personal_strings():

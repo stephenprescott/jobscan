@@ -2,7 +2,7 @@
 the page count, and render each page to PNG so the layout can be checked.
 
 Usage: python -I build_pdf.py <input.html> <output.pdf> <png_dir> [--max-pages N]
-Needs: Google Chrome or Microsoft Edge, and `pip install pypdf pypdfium2`.
+Needs: Google Chrome or Microsoft Edge, and `pip install pypdf pypdfium2 pillow`.
 """
 import argparse
 import subprocess
@@ -35,8 +35,9 @@ def load_pdf_libs():
     try:
         from pypdf import PdfReader
         import pypdfium2
+        import PIL  # noqa: F401  (pypdfium2 renders page images through Pillow)
     except ImportError:
-        sys.exit("Missing PDF tools. Run: python -m pip install pypdf pypdfium2")
+        sys.exit("Missing PDF tools. Run: python -m pip install pypdf pypdfium2 pillow")
     return PdfReader, pypdfium2
 
 

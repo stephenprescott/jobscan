@@ -13,7 +13,7 @@ DECISIONS = [
     # resume
     "resume_source", "resume_sections", "resume_max_pages", "contact_details",
     # direction
-    "target_roles", "step_level", "move_away_from", "industries",
+    "current_situation", "target_roles", "step_level", "move_away_from", "industries",
     # job rules
     "titles_main", "titles_stretch", "role_filter", "pay_target", "pay_floor", "pay_not_posted",
     "hourly_gigs", "work_setup", "home_zip", "max_commute", "remote_states", "employment_types",

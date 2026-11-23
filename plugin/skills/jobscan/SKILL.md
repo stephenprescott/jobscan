@@ -8,7 +8,7 @@ description: Job scan. Searches the user's chosen job sites in their Chrome (Cla
 Goal: every new job that passes the user's filters, ranked, with nothing shown twice. Accuracy over speed: never guess pay, location or company size; mark unknowns as unknown.
 
 ## 0. Read first
-Work in the user's jobscan folder (the folder holding `jobscan.config.md`). If it's missing, stop and say: open your jobscan folder in the Code tab, or run `/jobscan:setup`. If `setup-progress.md` shows Phase 5 not done, stop and say setup isn't finished.
+Work in the user's jobscan folder (the folder holding `jobscan.config.md`). A scheduled run names that folder in its prompt: if this session's working folder is different, use the named folder and full paths for every file and command below. If it's missing, stop and say: open your jobscan folder in the Code tab, or run `/jobscan:setup`. If `setup-progress.md` shows Phase 5 not done, stop and say setup isn't finished.
 
 Read: `CLAUDE.md`, `jobscan.config.md`, `applications/criteria.md` (the only rules to apply), `applications/tracker.md`, `applications/jobscan/seen.csv`. For the Match score, read the base resume once per run (Claude Doc at `resume_doc_url`; export it as text with the docs tools; load the docs skill or `guide` first) and `confirmed-facts.md`.
 
@@ -52,7 +52,7 @@ Open it and pull: company, title, location and setup, pay range, employment type
 - Drop it if its key is already in `seen.csv` or the company + role is in `tracker.md`.
 
 ## 6. Filter, score, tier
-Apply `applications/criteria.md` exactly: the filters (any fail = drop), the Want score (the user's own categories and points), the Match score (its rubric, using the base resume and `confirmed-facts.md` read this run, with the user's years and close-equivalent rules), then the tiers. If the resume export fails, say so in the report and mark Match "unverified"; never estimate from memory. Commute: local on-site/hybrid jobs must be within about `max_commute_minutes` of `home_zip`; when unsure, keep it and flag "commute?".
+Apply `applications/criteria.md` exactly: the filters (any fail = drop), the Want score (the user's own categories and points), the Match score (its rubric, using the base resume and `confirmed-facts.md` read this run, with the user's years and close-equivalent rules), then the tiers. If the resume export fails (retry once), say so in the report and never estimate Match from memory: write `match: null`, add the flag `match unverified`, and tier provisionally on Want alone (the board always shows flagged jobs). Commute: local on-site/hybrid jobs must be within about `max_commute_minutes` of `home_zip`; when unsure, keep it and flag "commute?".
 
 ## 7. Write the list
 File: `applications/jobscan/YYYY-MM-DD.md` (today). Format:
@@ -84,5 +84,5 @@ Board: `board_url`. Load the `ArtifactData` tool (ToolSearch "select:ArtifactDat
 - **Usage limit hit mid-run:** save what was found (steps 7–9 for the jobs already scored), mark the section heading `stopped: usage limit`, list the sources not reached, and do **not** run `--mark-success`, so the next scan covers this window again.
 - **Failed run** (Chrome unreachable, config missing): don't run `--mark-success`.
 - Close the tabs this run opened.
-- If `notify` is true: one desktop notification (ToolSearch "select:PushNotification", status "proactive"), under 200 characters: "Jobscan: N meet your bar, M new total" plus the top job if any, or the block/stop/failure.
+- If `notify` is true: one desktop notification (ToolSearch "select:PushNotification", status "proactive"; skip it if unavailable), under 200 characters: "Jobscan: N meet your bar, M new total" plus the top job if any, or the block/stop/failure.
 - Report in 3 lines: counts by tier, top 3 jobs (company, title, Want/Match), sources searched (X of Y) with any blocks.

@@ -7,15 +7,16 @@
 4. Seed the board's settings with `ArtifactData` (ToolSearch "select:ArtifactData"): collection `settings`, doc `board`, op `set`, data `{title, fit_want, fit_match, want_max}` from their answers (`fit_bar` and the Want total in `applications/criteria.md`).
 5. Check it: `ArtifactData` list on `settings` shows the doc. Say what you checked.
 6. Ask `pin_board`. If yes, pin it.
-7. Tell them: the Apply button sends the job to this jobscan session, so keep it open (not archived). If the button says the session isn't watching, it copies `/apply <date> #<n>` to paste here instead.
+7. Tell them: the Apply button sends the job to this jobscan session, so keep it open (not archived). If the button says the session isn't watching, it copies `/jobscan:apply <date> #<n>` to paste here instead.
 
 ## Phase 9: Scheduled scan
 1. Use `scan_times` (asked in § Scan). Build a cron expression in their local time, e.g. one scan at 08:00 → `0 8 * * *`; two scans at 08:00 and 17:00 → `0 8,17 * * *`.
 2. Create the task with the scheduled-tasks tool (ToolSearch "select:mcp__scheduled-tasks__create_scheduled_task"): `taskId: "jobscan"`, `title: "Jobscan"`, `description: "Scheduled job scan"`, the cron expression, and this self-contained prompt (fill in the folder path):
 
-   > Run the jobscan scan. Work only in the folder <data_folder>. Read <data_folder>/CLAUDE.md first, then run the jobscan skill (/jobscan:jobscan) exactly as written, using <data_folder>/jobscan.config.md for all settings. Read only on job sites: never apply, submit, message, save jobs, enter passwords, or solve CAPTCHAs; mark a blocked source "blocked: <reason>" and continue. Coverage is the job: search every enabled source. Finish with the skill's notification (if notify is on) and a 3-line report.
+   > Run the jobscan scan. Work only in the folder <data_folder>, using full paths for every file. Read <data_folder>/CLAUDE.md first, then run the jobscan skill (/jobscan:jobscan) exactly as written, using <data_folder>/jobscan.config.md for all settings. Read only on job sites: never apply, submit, message, save jobs, enter passwords, or solve CAPTCHAs; mark a blocked source "blocked: <reason>" and continue. Coverage is the job: search every enabled source. Finish with the skill's notification (if notify is on) and a 3-line report.
 
-3. Tell them, plainly:
+3. **First run now, to clear permission prompts:** ask them to open the app's scheduled tasks list, choose the Jobscan task and press **Run now**, and to approve its prompts (choose "always allow" where offered, for the Chrome sites, Python and the board) so later unattended runs don't stall waiting. If the app offers a permission mode for the task, explain the choice and let them pick.
+4. Tell them, plainly:
    - Scheduled scans run only while the Claude desktop app is open and the computer is awake; a missed scan runs when the app next opens, and with `window: since_last` nothing is lost.
    - In `light` mode, suggest choosing a smaller model for the task: open the task in the app's scheduled tasks list and pick it from the model menu. (You can't set the model from here.)
 
@@ -28,4 +29,5 @@
    - Press **Apply** on a job (or type `/jobscan:apply <date> #<n>` in this session). Answer one batch of questions. Review the files and the filled form. **Submit it themselves.**
    - Say "submitted" (or mark it applied) so the tracker updates.
    - Change any setting by asking ("change my pay floor", "add a target company").
-4. Tick Phase 10 in `setup-progress.md` and congratulate them briefly.
+4. Now that they've seen real scores, offer to adjust `tier_thresholds` and `fit_bar` (ask those two questions again). 
+5. Tick Phase 10 in `setup-progress.md` and congratulate them briefly.

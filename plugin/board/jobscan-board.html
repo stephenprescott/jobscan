@@ -158,7 +158,8 @@ main { padding-block: 16px 48px; }
 (function () {
   const state = { jobs: [], bar: null, wantMax: 10, status: "new", fit: "top", tier: "all", date: "all", sort: "total", q: "", canWrite: true };
   // The default "fit" bar comes from settings/board (written by /jobscan:setup). No settings: show every job.
-  const fits = (j) => state.fit === "all" || !state.bar || ((Number(j.want) || 0) >= state.bar.want && (Number(j.match) || 0) >= state.bar.match);
+  const unverified = (j) => Array.isArray(j.flags) && j.flags.includes("match unverified");
+  const fits = (j) => state.fit === "all" || !state.bar || unverified(j) || ((Number(j.want) || 0) >= state.bar.want && (Number(j.match) || 0) >= state.bar.match);
   let db = null;
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -293,7 +294,7 @@ main { padding-block: 16px 48px; }
   async function applyJob(id, btn) {
     const j = state.jobs.find((x) => x.id === id);
     if (!j) return;
-    const cmd = "/apply " + j.date + " #" + j.num;
+    const cmd = "/jobscan:apply " + j.date + " #" + j.num;
     const text = cmd + " (" + j.company + ", " + j.title + ")";
     let can = "off";
     try { if (comments && comments.canSendToClaude) can = await comments.canSendToClaude(); } catch (e) { can = "off"; }

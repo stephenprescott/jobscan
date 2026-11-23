@@ -1,6 +1,6 @@
 ---
 name: apply
-description: One-command job application pipeline. Use when the user presses Apply on their Jobscan Board (a "Send to Claude" comment like "/apply 2026-12-01 #2"), types /jobscan:apply, or says "apply to this" or "apply to my shortlist". Reads the posting (never asks them to paste it), fit-checks it against their rules, asks all gap questions in one batch, builds what their settings say for that tier (tailored resume, cover letter, hiring-manager note), fills the application form if they turned that on, and stops before submit.
+description: One-command job application pipeline. Use when the user presses Apply on their Jobscan Board (a "Send to Claude" comment like "/jobscan:apply 2026-12-01 #2"), types /jobscan:apply, or says "apply to this" or "apply to my shortlist". Reads the posting (never asks them to paste it), fit-checks it against their rules, asks all gap questions in one batch, builds what their settings say for that tier (tailored resume, cover letter, hiring-manager note), fills the application form if they turned that on, and stops before submit.
 ---
 
 # /apply
@@ -21,7 +21,7 @@ Work in the user's jobscan folder (holding `jobscan.config.md`). Read:
 If the user presses Apply while this session is busy, the app may post an automatic reply on the board and run nothing. So at the end of every turn that touched /apply, and whenever a notice says a board thread was auto-replied: query the board's `jobs` for `status == "applying"` and run /apply for any job without a tracker row yet. Reply in its thread with the real status (pass `acknowledge_duplicate: true`, since an auto-reply already stands) and resolve it.
 
 ## Step 1. Find and read the posting
-- **Board Apply button:** a "Send to Claude" comment like `/apply 2026-12-01 #2 (Company, Title)`. Get doc `2026-12-01-002` (`ArtifactData` get). The board already set status `applying`.
+- **Board Apply button:** a "Send to Claude" comment like `/jobscan:apply 2026-12-01 #2 (Company, Title)` (older boards may send `/apply ...`: treat it the same). Get doc `2026-12-01-002` (`ArtifactData` get). The board already set status `applying`.
 - **Typed:** `/jobscan:apply 2026-12-01 #7` → that board doc. `/jobscan:apply 7` → row 7 of the newest `applications/jobscan/YYYY-MM-DD.md`. "Apply to my shortlist" → board `jobs` where `status == "shortlist"`, one job at a time.
 - **No reference:** the posting is a tab the user opened in Chrome (`tabs_context_mcp`; ask which one if unclear). Never ask them to paste a description.
 - Open the employer's apply link in a new tab and `get_page_text`. Confirm it is the US version (US location, USD pay); if not, switch to the US one and update the board doc's `url`. Pull: company, title, location/setup, pay, employment type, travel, required and preferred qualifications, form fields (if on the same page), any named recruiter or manager.
