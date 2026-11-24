@@ -1,5 +1,6 @@
 <title>Jobscan Board</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="jobscan-board-version" content="0.1.2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
 <style>
@@ -159,16 +160,26 @@ main { padding-block: 16px 48px; }
   const state = { jobs: [], bar: null, wantMax: 10, status: "new", fit: "top", tier: "all", date: "all", sort: "total", q: "", canWrite: true };
   // The default "fit" bar comes from settings/board (written by /jobscan:setup). No settings: show every job.
   const unverified = (j) => Array.isArray(j.flags) && j.flags.includes("match unverified");
-  const fits = (j) => state.fit === "all" || !state.bar || unverified(j) || ((Number(j.want) || 0) >= state.bar.want && (Number(j.match) || 0) >= state.bar.match);
+  // The fit bar narrows only the "To review" list: jobs you shortlisted, queued, applied to or skipped always show and count.
+  const fits = (j) => state.fit === "all" || !state.bar || unverified(j) || (j.status || "new") !== "new" || ((Number(j.want) || 0) >= state.bar.want && (Number(j.match) || 0) >= state.bar.match);
   let db = null;
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : "");
 
+  // Annual pay top in dollars. Handles "$137.4K", "$120,000", "$40/hr" (x2080) so sorting compares like with like.
   function payTop(p) {
-    const nums = String(p || "").match(/\d+(\.\d+)?/g);
-    if (!nums) return -1;
-    return Math.max.apply(null, nums.map(Number));
+    const s = String(p || "");
+    const re = /(\d[\d,]*(?:\.\d+)?)\s*([kK])?/g;
+    let m, best = -1;
+    while ((m = re.exec(s))) {
+      let v = parseFloat(m[1].replace(/,/g, ""));
+      if (m[2]) v *= 1000;
+      else if (v < 1000 && /hr|hour/i.test(s)) v *= 2080;
+      else if (v < 1000) continue; // stray small numbers (years, counts)
+      if (v > best) best = v;
+    }
+    return best;
   }
   function segs(n, max) {
     let h = "";
@@ -187,7 +198,8 @@ main { padding-block: 16px 48px; }
     const q = state.q.trim().toLowerCase();
     return state.jobs.filter((j) => {
       const st = j.status || "new";
-      if (state.status !== "all" && st !== state.status) return false;
+      const view = st === "queued" ? "applying" : st; // queued jobs show under "In progress"
+      if (state.status !== "all" && view !== state.status) return false;
       if (!fits(j)) return false;
       if (state.tier !== "all" && j.tier !== state.tier) return false;
       if (state.date !== "all" && j.date !== state.date) return false;
@@ -209,7 +221,7 @@ main { padding-block: 16px 48px; }
   function renderControls() {
     const shown = state.jobs.filter(fits);
     const counts = { new: 0, shortlist: 0, applying: 0, applied: 0, skip: 0, all: shown.length };
-    shown.forEach((j) => { counts[j.status || "new"] = (counts[j.status || "new"] || 0) + 1; });
+    shown.forEach((j) => { const s = (j.status || "new") === "queued" ? "applying" : (j.status || "new"); counts[s] = (counts[s] || 0) + 1; });
     document.querySelectorAll("[data-fit]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.fit === state.fit)));
     document.querySelectorAll("[data-status]").forEach((b) => {
       b.setAttribute("aria-pressed", String(b.dataset.status === state.status));
@@ -236,7 +248,7 @@ main { padding-block: 16px 48px; }
     const url = safeUrl(j.url);
     const flags = Array.isArray(j.flags) ? j.flags : [];
     const dis = state.canWrite ? "" : " disabled";
-    return '<article class="card t' + esc(j.tier) + " st-" + esc(st) + '">' +
+    return '<article class="card t' + esc(j.tier) + " st-" + esc(st) + '" data-card="' + esc(j.id) + '">' +
       '<div class="row1">' +
         '<span class="tier">Tier ' + esc(j.tier) + "</span>" +
         '<span class="meter">Want <b>' + esc(j.want) + "</b>/" + esc(state.wantMax) + " " + segs(Number(j.want) || 0, state.wantMax) + "</span>" +
@@ -255,8 +267,8 @@ main { padding-block: 16px 48px; }
       (j.gaps ? '<p class="gaps"><span class="k">Gaps</span>' + esc(j.gaps) + "</p>" : "") +
       (flags.length ? '<div class="flags">' + flags.map((f) => '<span class="flag">' + esc(f) + "</span>").join("") + "</div>" : "") +
       '<div class="actions">' +
-        (st === "applying" || st === "applied"
-          ? '<span class="btn on-applied" aria-disabled="true">' + (st === "applied" ? "Applied" : "Claude is applying") + "</span>"
+        (st === "applying" || st === "applied" || st === "queued"
+          ? '<span class="btn on-applied" aria-disabled="true">' + (st === "applied" ? "Applied" : st === "queued" ? "Queued · " + ordinal(queuePos(j)) + " in line" : "Claude is applying") + "</span>"
           : '<button class="btn primary" data-act="apply" data-id="' + esc(j.id) + '">Apply</button>') +
         (url ? '<a class="btn" href="' + esc(url) + '" target="_blank" rel="noopener">Open posting</a>' : "") +
         '<button class="btn' + (st === "shortlist" ? " on-shortlist" : "") + '" data-act="shortlist" data-id="' + esc(j.id) + '"' + dis + ">" + (st === "shortlist" ? "Shortlisted" : "Shortlist") + "</button>" +
@@ -290,31 +302,37 @@ main { padding-block: 16px 48px; }
     }
   }
 
+  // Apply queue: the click IS the queue entry. Saving status "queued" + queuedAt to the database is what
+  // makes Apply always work, whether or not your jobscan session is open or busy; it works queued jobs
+  // oldest-first. The "Send to Claude" comment afterwards only wakes the session sooner (it reaches your
+  // session when the board is open in the Claude desktop app); if it can't be sent, the job stays queued.
   let comments = null;
   async function applyJob(id, btn) {
     const j = state.jobs.find((x) => x.id === id);
-    if (!j) return;
-    const cmd = "/jobscan:apply " + j.date + " #" + j.num;
-    const text = cmd + " (" + j.company + ", " + j.title + ")";
-    let can = "off";
-    try { if (comments && comments.canSendToClaude) can = await comments.canSendToClaude(); } catch (e) { can = "off"; }
-    if (can === "available") {
-      btn.disabled = true;
-      try {
-        const anchor = await comments.anchorFor(btn.closest(".card"));
-        await comments.sendToClaude({ anchor: anchor, text: text });
-        toast("Sent to Claude: applying to " + j.company);
-        if (db) { try { await db.collection("jobs").doc(id).update({ status: "applying", statusAt: new Date().toISOString() }); } catch (e) { /* status is cosmetic here */ } }
-        return;
-      } catch (e) {
-        btn.disabled = false;
-        if (e && e.code === "consent_required") { toast("Allow comments from this page, then press Apply again."); return; }
-        if (e && e.code !== "claude_unavailable") { toast("Couldn't send to Claude. Try again in a moment."); return; }
-      }
+    if (!j || !db) { toast("The board isn't connected. Reopen it and press Apply again."); return; }
+    btn.disabled = true;
+    const now = new Date().toISOString();
+    try {
+      await db.collection("jobs").doc(id).update({ status: "queued", queuedAt: now, statusAt: now });
+    } catch (e) {
+      btn.disabled = false;
+      toast("Couldn't queue " + j.company + ". Press Apply again.");
+      return;
     }
-    try { await navigator.clipboard.writeText(cmd); toast("Your jobscan session isn't watching the board. Copied " + cmd + ": paste it in that session."); }
-    catch (e) { toast("Your jobscan session isn't watching the board. Type " + cmd + " in that session."); }
+    j.status = "queued"; j.queuedAt = now; render();
+    toast("Queued: " + j.company + " (" + ordinal(queuePos(j)) + " in line)");
+    try {
+      if (comments && comments.canSendToClaude && (await comments.canSendToClaude()) === "available") {
+        const anchor = await comments.anchorFor(document.querySelector('[data-card="' + CSS.escape(id) + '"]') || document.body);
+        await comments.sendToClaude({ anchor: anchor, text: "/jobscan:apply " + j.date + " #" + j.num + " (" + j.company + ", " + j.title + ") — queued" });
+      }
+    } catch (e) { /* the queue entry is saved; the session picks it up from the queue */ }
   }
+  function queued() {
+    return state.jobs.filter((x) => (x.status || "") === "queued").sort((a, b) => String(a.queuedAt || a.statusAt || "").localeCompare(String(b.queuedAt || b.statusAt || "")));
+  }
+  function queuePos(j) { return queued().findIndex((x) => x.id === j.id) + 1; }
+  function ordinal(n) { const s = ["th", "st", "nd", "rd"], v = n % 100; return n + (s[(v - 20) % 10] || s[v] || s[0]); }
 
   document.addEventListener("click", (ev) => {
     const b = ev.target.closest("button");

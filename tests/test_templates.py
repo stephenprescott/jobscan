@@ -17,7 +17,7 @@ FILES = [
 ]
 
 CONFIG_KEYS = {
-    "data_folder", "resume_doc_url", "board_url", "state", "home_zip", "max_commute_minutes",
+    "data_folder", "resume_doc_url", "board_url", "board_version", "state", "home_zip", "max_commute_minutes",
     "mode", "sources", "window", "window_cap_days", "last_successful_scan",
     "scan_times", "notify", "fit_bar", "apply_outputs", "hm_search", "form_fill",
     "resume_max_pages", "auto_update",

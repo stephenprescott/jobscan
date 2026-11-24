@@ -10,6 +10,8 @@ Goal: every new job that passes the user's filters, ranked, with nothing shown t
 ## 0. Read first
 Work in the user's jobscan folder (the folder holding `jobscan.config.md`). A scheduled run names that folder in its prompt: if this session's working folder is different, use the named folder and full paths for every file and command below. If it's missing, stop and say: open your jobscan folder in the Code tab, or run `/jobscan:setup`. If `setup-progress.md` shows Phase 5 not done, stop and say setup isn't finished.
 
+Run the board update check in `${CLAUDE_PLUGIN_ROOT}/skills/setup/references/finish.md` § Updating the board (republishes the user's board when jobscan has a newer one).
+
 Read: `CLAUDE.md`, `jobscan.config.md`, `applications/criteria.md` (the only rules to apply), `applications/tracker.md`, `applications/jobscan/seen.csv`. For the Match score, read the base resume once per run (Claude Doc at `resume_doc_url`; load the docs skill or `guide` first, then export it as markdown with the docs `export` tool, or read the doc and its tab's body node; the doc id is the last part of the link) and `confirmed-facts.md`.
 
 Python command: `python` on Windows, `python3` on Mac.
@@ -22,7 +24,8 @@ Run `python -I "${CLAUDE_PLUGIN_ROOT}/scripts/scan_window.py" jobscan.config.md`
 - Target company sites ignore the window (see `references/sources.md`).
 
 ## 2. Search (Claude in Chrome)
-Load the Chrome tools in one ToolSearch call (tabs_context_mcp, tabs_create_mcp, navigate, get_page_text, find, read_page, computer, tabs_close_mcp). Work in this session's own new tabs. The user is signed in to the boards in their Chrome. If the Chrome tools can't reach the browser after one retry, stop: write the run as failed, notify (step 10), and tell the user to open Chrome and check the Claude extension is connected.
+Load the Chrome tools in one ToolSearch call (tabs_context_mcp, tabs_create_mcp, navigate, get_page_text, find, read_page, computer, javascript_tool, tabs_close_mcp). Work in this session's own new tabs. The user is signed in to the boards in their Chrome.
+- **If Chrome isn't connected** (tabs_context_mcp fails or finds no browser): start Chrome yourself (Windows: `Start-Process chrome` in PowerShell; Mac: `open -a "Google Chrome"`), wait about 15 seconds, and retry tabs_context_mcp up to 3 times. Only if it still fails: write the run as failed, notify (step 10), and tell the user to open Chrome and check the Claude extension is connected. (Scheduled scans were being missed whenever Chrome happened to be closed.)
 
 **Queries.** Build two OR queries from `applications/criteria.md` § Titles to search:
 - **Query A (main):** the main titles, each in quotes, joined with OR.
@@ -35,6 +38,7 @@ Rules:
 - **Coverage is the job.** Search every enabled source, in both location modes, every run. Never skip a source or leave a qualifying listing unopened "for time" or because an earlier run covered it.
 - Each run's section starts with a coverage table: `| Source | Remote searched | Local searched | Results seen | Passed |`, one row per enabled source.
 - **Blocked sources:** a sign-in wall, CAPTCHA, or a page that fails to load twice. Never sign in for the user, never solve a CAPTCHA, never retry in a loop. Write the coverage row as `blocked: <reason>` (e.g. `blocked: LinkedIn signed out`), keep going with the other sources, and name it in the notification.
+- **"Verify you are human" checks (Indeed shows these often):** never click or solve one yourself. Leave that tab open, send the user a notification (ToolSearch "select:PushNotification"): "jobscan: <site> needs you to click its human check in Claude's Chrome tab", search every other source, then return to that site last and reload. Still blocked: `blocked: human check not cleared`.
 - **Remote must include the user's state** (`state`). Drop a job whose allowed states exclude it; flag "remote states?" if the posting doesn't say.
 - Board filters are unreliable. Always check location and pay from the posting itself.
 - Read only: never apply, save, follow, message, or click Easy Apply anywhere.
@@ -46,6 +50,7 @@ Job pages are long: when a page's text is large, read the requirements, pay, loc
 
 ## 4. Read each remaining posting
 Open it and pull: company, title, location and setup, pay range, employment type (and rate for contract-to-hire), travel, duties, required and preferred skills, years required, company size (from the board's company panel or the company's LinkedIn page; else "unknown"), and the **employer's own posting URL** (follow "Apply on company site" or find it on the employer's hiring system; fall back to the board URL only if none exists).
+- **Getting the employer URL (required):** on LinkedIn, Chrome hides the "Apply on company website" link's address, so click it in the same tab with javascript_tool: `const a=[...document.querySelectorAll('a')].find(e=>e.getAttribute('aria-label')==='Apply on company website'); a.target='_self'; a.click();` then read the tab's new URL from tabs_context_mcp and strip tracking parameters (`source=`, `utm_`). Never click Easy Apply. Easy Apply only: search the employer's hiring system (Greenhouse, Lever, Ashby, Workday, iCIMS) by company + title; not found: keep the LinkedIn `/jobs/view/<id>/` URL and flag "LinkedIn only". Do the same on Indeed, Built In, Dice and Google Jobs. Never store a search-results URL (google.com/search, linkedin.com/jobs/search) or an empty url.
 - **Always link the US posting.** If the employer's posting is a non-US version (Canada, UK), find the US version on the same hiring system (Greenhouse: `boards-api.greenhouse.io/v1/boards/<company>/jobs` lists every location) and use its URL and pay. No US version: drop it (location filter).
 
 ## 5. Duplicates
@@ -55,6 +60,8 @@ Open it and pull: company, title, location and setup, pay range, employment type
 
 ## 6. Filter, score, tier
 Apply `applications/criteria.md` exactly: the filters (any fail = drop), the Want score (the user's own categories and points), the Match score (its rubric, using the base resume and `confirmed-facts.md` read this run, with the user's years and close-equivalent rules), then the tiers. If the resume export fails (retry once), say so in the report and never estimate Match from memory: write `match: null`, add the flag `match unverified`, and tier provisionally on Want alone (the board always shows flagged jobs). Years: when a posting names years in a specific area ("6+ years in healthcare"), compare it with the user's years in that same area from `criteria.md`, not only their total; apply the years filter to whichever gap is larger. Commute: local on-site/hybrid jobs must be within about `max_commute_minutes` of `home_zip`; when unsure, keep it and flag "commute?".
+- **People-management must-haves** ("2+ years managing analysts", "3+ years leading a team" meaning direct reports) are a missed must-have unless `confirmed-facts.md` or the base resume shows that much people management. Informal leadership or mentoring doesn't meet them.
+- Put every tag-like concern ("remote states?", "below pay target", "target company", "LinkedIn only") in the `flags` field, not only in prose.
 
 ## 7. Write the list
 File: `applications/jobscan/YYYY-MM-DD.md` (today). Format:

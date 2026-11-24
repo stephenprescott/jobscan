@@ -56,7 +56,9 @@ jobscan reads job sites through your own signed-in browser, the way you would, a
 
 ## Updating
 
-If you turned on auto-update during setup, fixes arrive by themselves; type `/reload-plugins` (or start a new session) to load them. Otherwise ask Claude to "update jobscan".
+If you turned on auto-update during setup, fixes arrive by themselves; type `/reload-plugins` (or start a new session) to load them. Otherwise ask Claude to "update jobscan". Your board updates too: the next scan or Apply after an update republishes it for you, keeping all your jobs.
+
+Open your board inside the Claude desktop app (not a web browser). Every Apply click queues the job either way, but in the app it also wakes your jobscan session right away.
 
 ## Getting help
 

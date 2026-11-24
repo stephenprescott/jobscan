@@ -2,6 +2,7 @@
 data_folder: null  # full path in single quotes or with forward slashes; double quotes break on Windows backslashes
 resume_doc_url: null
 board_url: null
+board_version: null
 state: null
 home_zip: null
 max_commute_minutes: null
@@ -37,6 +38,7 @@ The settings above are written by `/jobscan:setup` from your answers. To change 
 | `data_folder` | This folder's full path |
 | `resume_doc_url` | Your base resume (a Claude Doc) |
 | `board_url` | Your Jobscan Board page |
+| `board_version` | Version of the board page last published to your account; jobscan republishes it when an update brings a newer one |
 | `state`, `home_zip`, `max_commute_minutes` | Where you live, for the commute check and your state's job site |
 | `mode` | `light` (fewer sources, lower usage, good for Pro) or `full` (every source, every listing opened) |
 | `sources` | Job sites to search. Ids: `linkedin`, `indeed`, `google_jobs`, `hiring_systems` (Greenhouse, Lever, Ashby, Workday and similar via Google), `builtin`, `wellfound`, `dice`, `state_site` (your state's job site), `usajobs`, `target_companies` (your target companies' own career sites) |

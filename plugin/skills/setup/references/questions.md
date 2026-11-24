@@ -382,7 +382,7 @@ Paths are inside the user's jobscan folder. `config` = `jobscan.config.md`. Any 
 - Asks: Create your Jobscan Board (a private page in your Claude account that shows jobs and has the Apply button)?
 - Choices: Yes; not now (use the daily files instead).
 - Recommended: Yes. It's the easiest way to review jobs and start applications.
-- Writes: jobscan.config.md: `board_url` after publishing (see finish.md).
+- Writes: jobscan.config.md: `board_url` and `board_version` after publishing (see finish.md).
 
 ### pin_board
 - Asks: Pin the board to your Claude sidebar?

@@ -3,11 +3,24 @@
 ## Phase 9: Board
 1. Ask `publish_board` (`references/questions.md` § Board). The board is needed for the Apply button and the visual job list; without it they use the daily files in `applications/jobscan/`.
 2. Copy `${CLAUDE_PLUGIN_ROOT}/board/jobscan-board.html` into the session scratchpad (the Artifact tool only publishes files under the working folder or the scratchpad, and the plugin folder is neither), and in the copy change the first line `<title>Jobscan Board</title>` to `<title><Their first name>'s Jobscan Board</title>` (the page's own `<title>` wins over the tool's `title`). Run the Artifact tool's `quickstart` once if it asks, then publish the copy as a new private artifact on their account: title "<Their first name>'s Jobscan Board", `icon: "briefcase"`, `capabilities: {db: {}, comments: {}, user: {}}` (load the `artifact-capabilities` skill first). The full `comments` form is what lets the Apply button send the job to this session.
-3. Write its URL to `jobscan.config.md` → `board_url`.
+3. Write its URL to `jobscan.config.md` → `board_url`, and the board file's version (the `content` of its `<meta name="jobscan-board-version">` line) → `board_version`.
 4. Seed the board's settings with `ArtifactData` (ToolSearch "select:ArtifactData"): collection `settings`, doc `board`, op `set`, data `{title, fit_want, fit_match, want_max}` from their answers (`fit_bar` and the Want total in `applications/criteria.md`).
 5. Check it: `ArtifactData` list on `settings` shows the doc. Say what you checked.
 6. Ask `pin_board`. If yes, pin it.
-7. Tell them: the Apply button sends the job to this jobscan session, so keep it open (not archived). If the button says the session isn't watching, it copies `/jobscan:apply <date> #<n>` to paste here instead.
+7. Tell them, plainly:
+   - **Pressing Apply always queues the job** on the board ("Queued · 2nd in line"). Click as many as they like; this jobscan session works the queue in click order.
+   - **Open the board inside the Claude desktop app** (from the pinned sidebar item or the artifacts list), not in a web browser. In the app, Apply also wakes this session right away. In a browser, the click still queues, but it reaches claude.ai's own chat instead, so the job waits until this session next runs.
+   - Keep this jobscan session in the sidebar (not archived): it's the one that works the queue.
+
+## Updating the board
+The user's board is their own published copy of `${CLAUDE_PLUGIN_ROOT}/board/jobscan-board.html`, so a jobscan update doesn't change it by itself. The `apply` and `jobscan` skills run this check first:
+1. Read the plugin board's version: the `content` of its `<meta name="jobscan-board-version" content="...">` line. Read `board_version` in `jobscan.config.md` (missing = older than any version). No `board_url`: skip this check.
+2. Equal: do nothing. Plugin newer: republish.
+   - Read the live board first (`Artifact` action `read` with `url: board_url`) and note its first-line `<title>`.
+   - Copy the plugin board into the session scratchpad and set its first line to that same `<title>` (their name stays on the board).
+   - Publish it to the same artifact: `Artifact` publish with `url: board_url` and the scratchpad file, and `capabilities: {db: {}, comments: {}, user: {}}`. Never publish without `url`: that would create a second board.
+   - Write the new version to `board_version`. Jobs, statuses and settings live in the board's database, so nothing on it is lost.
+3. If the publish fails, say so once in the report or reply and continue; the old board still works.
 
 ## Phase 9: Scheduled scan
 1. Use `scan_times` (asked in § Scan). Build a cron expression in their local time, e.g. one scan at 08:00 → `0 8 * * *`; two scans at 08:00 and 17:00 → `0 8,17 * * *`.
@@ -27,7 +40,7 @@
 3. Explain the daily routine in a few lines:
    - Scans run on their schedule; a notification says how many jobs meet their bar (if `notify`).
    - Open the board, read the cards, shortlist or skip.
-   - Press **Apply** on a job (or type `/jobscan:apply <date> #<n>` in this session). Answer one batch of questions. Many employer sites (Workday especially) need an account per employer: when the form stops at sign-in, they create the account or sign in in that tab, then say "continue" and Claude fills the rest. Review the files and the filled form. **Submit it themselves.**
+   - Press **Apply** on a job, or on several: each one queues, and this session works them in order (or type `/jobscan:apply <date> #<n>` here). Answer one batch of questions. Many employer sites (Workday especially) need an account per employer: when the form stops at sign-in, they create the account or sign in in that tab, then say "continue" and Claude fills the rest. Review the files and the filled form. **Submit it themselves.**
    - Say "submitted" (or mark it applied) so the tracker updates.
    - Change any setting by asking ("change my pay floor", "add a target company").
 4. Now that they've seen real scores, offer to adjust `tier_thresholds` and `fit_bar` (ask those two questions again). 

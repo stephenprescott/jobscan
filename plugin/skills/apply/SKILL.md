@@ -17,11 +17,19 @@ Work in the user's jobscan folder (holding `jobscan.config.md`). Read:
 - `voice-rules.md` for every letter, note and free-text answer.
 - The board's `jobs` collection (doc id `YYYY-MM-DD-NNN`) via `ArtifactData`. Never touch the `settings` collection.
 
-## Missed clicks (check every turn)
-If the user presses Apply while this session is busy, the app may post an automatic reply on the board and run nothing. So at the end of every turn that touched /apply, and whenever a notice says a board thread was auto-replied: query the board's `jobs` for `status == "applying"` and run /apply for any job without a tracker row yet. Reply in its thread with the real status (pass `acknowledge_duplicate: true`, since an auto-reply already stands) and resolve it.
+## Board update check (first, every time)
+Before anything else, run the board update check in `${CLAUDE_PLUGIN_ROOT}/skills/setup/references/finish.md` § Updating the board. It republishes the user's board when jobscan has a newer one, so fixes reach their live board without them asking.
+
+## The Apply queue (the Apply button always works)
+Pressing Apply on the board saves the job as `status: "queued"` with `queuedAt` in the board's `jobs` collection. That saved row IS the request: it exists even if this session is busy, closed or restarting, and the button never depends on a comment getting through. The "Send to Claude" comment that follows only wakes this session sooner (it reaches this session when the board is open in the Claude desktop app; from a web browser it goes to claude.ai's own chat instead, and the job simply waits in the queue).
+- **Drain the queue, oldest first.** Whenever this session gets any turn (a board comment or auto-reply notice, a message, the user typing anything), first query `jobs` where `status == "queued"`, sort by `queuedAt`, and work them in that order. Also query `status == "applying"` for jobs with no tracker row yet (started earlier but never logged) and finish those first.
+- **Taking a job off the queue:** set its status to `applying` (`ArtifactData` update with `if_version`) at Step 1, so the board shows "Claude is applying" and the next job moves up.
+- **Keep the line moving:** once a job reaches Step 4 (agents building in the background), start Steps 1–3 of the next queued job instead of waiting. Never end a turn with queued jobs untouched without saying how many are left in line.
+- **Board threads:** each queued click also leaves a "Send to Claude" thread. Reply with the real status (`acknowledge_duplicate: true` if an auto-reply already stands) and resolve it once that job is started.
+- Never mark a queued job `skip` or `new` on your own; only the user removes a job from the queue.
 
 ## Step 1. Find and read the posting
-- **Board Apply button:** a "Send to Claude" comment like `/jobscan:apply 2026-12-01 #2 (Company, Title)` (older boards may send `/apply ...`: treat it the same). Get doc `2026-12-01-002` (`ArtifactData` get). The board already set status `applying`.
+- **Board Apply button:** a "Send to Claude" comment like `/jobscan:apply 2026-12-01 #2 (Company, Title)` (older boards may send `/apply ...`: treat it the same). Get doc `2026-12-01-002` (`ArtifactData` get). The board set status `queued` (older boards set `applying`); set it to `applying` now (see The Apply queue).
 - **Typed:** `/jobscan:apply 2026-12-01 #7` → that board doc; set its status to `applying` (`ArtifactData` update with `if_version`) so the board matches. `/jobscan:apply 7` → row 7 of the newest `applications/jobscan/YYYY-MM-DD.md`. "Apply to my shortlist" → board `jobs` where `status == "shortlist"`, one job at a time.
 - **No reference:** the posting is a tab the user opened in Chrome (`tabs_context_mcp`; ask which one if unclear). Never ask them to paste a description.
 - Open the employer's apply link in a new tab and `get_page_text`. Confirm it is the US version (US location, USD pay); if not, switch to the US one and update the board doc's `url`. Pull: company, title, location/setup, pay, employment type, travel, required and preferred qualifications, form fields (if on the same page), any named recruiter or manager.
